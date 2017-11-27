@@ -1,12 +1,10 @@
-var http = require("http");
-var tasks = require("./taskinfo.js");
+var express = require("express");
+var app = express();
+var tasks = require("./tasks-routes.js");
 
-console.log(tasks.info[0]);
+app.use(express.static(__dirname + "/public"));
+app.use("/", tasks);
 
-http.createServer(onRequest).listen(3000);
-
-function onRequest(request, response) {
-	response.writeHead(200, { "Content-type": "text/plain" });
-	response.write(tasks.info[Math.floor(Math.random() * tasks.length)]);
-	response.end();
-}
+var server = app.listen(8080, function() {
+	console.log("server up");
+});
